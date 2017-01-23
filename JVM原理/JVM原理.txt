@@ -1,0 +1,99 @@
+---------------------------------JVM原理----------------------------------------
+
+一. 什么是JVM
+   JVM是Java Virtual Machine (Java虚拟机)的缩写, JVM是一种用于计算设备的规范, 它是一个虚构
+出来的计算机,是通过在实际的计算机上仿真模拟各种计算机功能来实现的.
+
+   Java语言的一个非常重要的特点就是与平台的无关性. 而是用Java虚拟机是实现这一特点的关键. 一般的
+高级语言如果要在不同的平台上运行, 至少需要编译成不同的目标代码. 而引入Java语言虚拟机后, Java语言
+在不同平台上运行时不需要重新编译.  Java语言使用Java虚拟机屏蔽了与具体平台相关的信息, 使得Java
+语言编译程序只需生成在Java虚拟机上运行的目标代码(字节码),  就可以在多种平台上不加修改地运行.  Java
+虚拟机在执行字节码时, 把字节码解释成具体平台上的机器指令执行.  这就是Java的能够"一编译,到处运行"
+的原因.
+
+
+二. Java代码编译和执行的整个过程包含了一下三个重要的机制:
+
+1. Java源码编译机制
+
+2. 类加载机制
+
+3. 类执行机制
+
+Java源码编译机制
+  Java源码编译有以下三个过程组成:
+  
+  1. 分析和输入到符号表
+  2. 注解处理
+  3. 语义分析和生成class文件
+     最后生成的class文件由一下部分组成:
+	 a. 结构信息: 包括class文件格式 版本号 及各部分的数量与大小信息.
+	 b. 元数据: 对应于java源码中声明与常量的信息. 包含类/继承的超类/实现的接口的声明信息,域与方法声明信息和常量池.
+	 c. 方法信息:  对应java源码中语句和表达式对应的信息.  包含字节码,异常处理器表,求值栈与局部变量区大小,求值栈的类型记录,调试符号信息.
+	 
+类加载机制
+   JVM类加载是通过ClassLoader及其子类来完成的
+    1）Bootstrap ClassLoader
+
+	负责加载$JAVA_HOME中jre/lib/rt.jar里所有的class，由C++实现，不是ClassLoader子类
+
+	2）Extension ClassLoader
+
+	负责加载java平台中扩展功能的一些jar包，包括$JAVA_HOME中jre/lib/*.jar或-Djava.ext.dirs指定目录下的jar包
+
+	3）App ClassLoader
+
+	负责记载classpath中指定的jar包及目录中class
+
+	4）Custom ClassLoader
+
+		属于应用程序根据自身需要自定义的ClassLoader，如tomcat、jboss都会根据j2ee规范自行实现ClassLoader加载过程中会先检查类是否被已加载，
+		检查顺序是自底向上，从Custom ClassLoader到BootStrap ClassLoader逐层检查，只要某个classloader已加载就视为已加载此类，保证此类只
+		所有ClassLoader加载一次。而加载的顺序是自顶向下，也就是由上层来逐层尝试加载此类。
+
+类执行机制
+   JVM是基于栈的体系结构来执行class字节码的. 县城创建后, 都会产生程序计数器(PC) 和栈 (Stack), 程序计数器存放下一条
+   要执行的指令在方法内的偏移量, 栈中存放一个个 栈帧  ,每个 栈帧对应着每个方法的每次调用, 而栈帧又是由局部变量区和
+   操作数栈 两部分组成, 局部变量区 用于存放方法中的局部变量和参数, 操作数栈中 用于存放方法执行过程中产生的中间结果.
+   
+三.  JVM内存管理和垃圾回收
+
+   JVM内存组成结构
+   JVM栈 由 堆,栈,本地方法栈,方法区  等部分组成.
+   
+   1) 堆
+      所有通过new创建的对象的内存都在堆中分配, 堆得大小可以通过-Xmx和-Xms来控制. 堆被划分为新生代和旧生代,
+	  新生代又被进一步划分为 Eden和Survivor区, 最后Survivor由 From Space 和 To Space组成.
+      a. 新生代:  新建的对象都是用新生代分配内存, Eden空间不足的时候, 会把存活的对象转移到Survivor中,新生代
+	     大小可以由-Xmn来控制, 也可以用-XX:SurvivorRatio来控制 Eden和Survivor的比例
+	  b. 旧生代:  用于存放新生代中记过多次垃圾回收仍然存活的对象.
+	  c. 持久带(Permanent Space) 实现方法区: 主要存放所有已加载的类信息,方法信息,常量池 等等. 可以通过
+	     -XX:PermSize和-XX:MaxPermSize 来指定持久带初始化值 和 最大值. Permanent Space并不等同于方法区,
+		 只不过是 Hotspot JVM 用Permanent Space来实现方法区而已, 有些虚拟机没有 Permanent Space而用其他
+		 机制来实现方法区.
+	
+	
+	-Xmx: 最大堆内存, 如: -Xmx512m
+	
+	-Xms: 初始时堆内存, 如: -Xms256m
+	
+	-XX:MaxNewSize  :最大年轻区内存
+	
+	-XX:NewSize :初始时年轻区内存. 通常为 Xmx 的 1/3 或 1/4.
+	             新生代 = Eden + 2个 Survivor 空间. 实际可用空间 为 = Eden + 1个 Survivor, 即 90%
+
+    -XX:MaxPermSize   : 最大持久带内存
+	
+	-XX:PermSize   :持久带初始内存
+	
+	-XX:+PrintGCDetails .打印GC信息
+	
+	-XX:NewRatio  新生代与老年代 的比例 , 如 -XX:NewRatio=2 , 则新生代占整个堆空间的 1/3, 老年代占2/3
+	
+	-XX:SurvivorRatio 新生代中 Eden 与 Survivor的比值 , 默认值 是 8, 即 Eden 占新生代 空间的 8/10,
+	                  另外两个 Survivor 各站1/10.
+	
+   
+   http://www.mamicode.com/info-detail-1028149.html
+   
+   
