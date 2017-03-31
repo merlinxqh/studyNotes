@@ -22,3 +22,19 @@ netstat -anop | grep pid
 # mkfontdir
 # fc-cache
 # fc-list :lang=zh  //显示系统已安装中文字体
+
+#rpm安装 jdk
+rpm -ivh jdk-7u17-linux-x64.rpm
+
+#rpm卸载 jdk
+rpm -qa|grep jdk  //查找对应jdk版本
+rpm -e  --nodeps  jdk-1.6.0_10-fcs  //卸载上一步查找到的jdk
+
+
+############### openjdk 只需要在 linux安装好字体 , 就能通过Font类 调用, sun jdk 只能 到 对应jdk目录/jre/lib/fonts下 安装 字体
+# cd $JAVA_HOME/jre/lib/fonts
+# mkdir fallback
+# cp xxxxxx.ttf fallback/
+# cd fallback
+# mkfontscale
+# mkfontdir
