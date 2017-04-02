@@ -38,3 +38,9 @@ rpm -e  --nodeps  jdk-1.6.0_10-fcs  //卸载上一步查找到的jdk
 # cd fallback
 # mkfontscale
 # mkfontdir
+
+
+#############这里是jvm命令#################
+cd #对应目录/
+javac Test.java #编译这个java类
+javap -verbose 
