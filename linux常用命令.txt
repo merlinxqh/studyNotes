@@ -14,6 +14,18 @@ netstat -anop | grep pid
 "ctrl+r"
 #vim相关-------end----------
 
+#scp
+scp xxxx.war root:172.18.50.139:/home/abc
+
+#mysql index
+show index from t_table;
+drop index xxxxxx on t_table;
+ALTER TABLE t_table ADD INDEX index_name (column_list)
+ALTER TABLE t_table ADD UNIQUE (column_list)
+ALTER TABLE t_table ADD PRIMARY KEY (column_list)
+CREATE INDEX index_name ON table_name (column_list)
+CREATE UNIQUE INDEX index_name ON table_name (column_list)
+
 
 #linux安装中文字体
 将字体文件 ****.ttf 放至 /user/share/fonts/win 目录下
