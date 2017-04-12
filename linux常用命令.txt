@@ -60,3 +60,6 @@ rpm -e  --nodeps  jdk-1.6.0_10-fcs  //卸载上一步查找到的jdk
 cd #对应目录/
 javac Test.java #编译这个java类
 javap -verbose 
+
+#查看端口占用情况windows
+netstat  -aon|findstr "80"
