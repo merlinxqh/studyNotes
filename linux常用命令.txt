@@ -17,6 +17,10 @@ netstat -anop | grep pid
 #scp
 scp xxxx.war root:172.18.50.139:/home/abc
 
+
+#查此端口看看是否成功启动
+netstat -an|grep 61616
+
 #mysql index
 show index from t_table;
 drop index xxxxxx on t_table;
