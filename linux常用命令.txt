@@ -17,6 +17,10 @@ netstat -anop | grep pid
 #scp
 scp xxxx.war root:172.18.50.139:/home/abc
 
+
+#查此端口看看是否成功启动
+netstat -an|grep 61616
+
 #mysql index
 show index from t_table;
 drop index xxxxxx on t_table;
@@ -58,7 +62,12 @@ javac Test.java #编译这个java类
 javap -verbose 
 
 
+
 Windows 的cmd自动补全功能  Windows命令行自动补全的功能，修改相当方便，只要首先用命令里输入regedit注册表
 
 HKEY_LOCAL_MACHINE\Software\Microsoft\ Command Prosessor\CompletionChar的键值改为9(十进制) 默认十六进制 40
 然后便可在命令行窗口用TAB键自动补全命令了
+=======
+#查看端口占用情况windows
+netstat  -aon|findstr "80"
+
