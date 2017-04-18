@@ -61,5 +61,13 @@ cd #对应目录/
 javac Test.java #编译这个java类
 javap -verbose 
 
+
+
+Windows 的cmd自动补全功能  Windows命令行自动补全的功能，修改相当方便，只要首先用命令里输入regedit注册表
+
+HKEY_LOCAL_MACHINE\Software\Microsoft\ Command Prosessor\CompletionChar的键值改为9(十进制) 默认十六进制 40
+然后便可在命令行窗口用TAB键自动补全命令了
+=======
 #查看端口占用情况windows
 netstat  -aon|findstr "80"
+
