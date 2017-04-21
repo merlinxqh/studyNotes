@@ -21,6 +21,11 @@ scp xxxx.war root:172.18.50.139:/home/abc
 #查此端口看看是否成功启动
 netstat -an|grep 61616
 
+#根据端口查询进程
+netstat -apn | grep 5601
+#查询所有进程
+netstat -apn
+
 #mysql index
 show index from t_table;
 drop index xxxxxx on t_table;
