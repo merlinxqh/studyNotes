@@ -76,3 +76,15 @@ HKEY_LOCAL_MACHINE\Software\Microsoft\ Command Prosessor\CompletionCharµÄ¼üÖµ¸ÄÎ
 #²é¿´¶Ë¿ÚÕ¼ÓÃÇé¿öwindows
 netstat  -aon|findstr "80"
 
+
+#²éÑ¯mysqlÍâ¼ü¹ØÁª¹ØÏµsql
+SELECT
+	TABLE_NAME,
+	COLUMN_NAME,
+	CONSTRAINT_NAME,
+	REFERENCED_TABLE_NAME,
+	REFERENCED_COLUMN_NAME
+FROM
+	INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE
+	REFERENCED_TABLE_NAME = 'table_name';
