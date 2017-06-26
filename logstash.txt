@@ -1,0 +1,9 @@
+input {
+      path => ["/opt/tomcat_service/logs/catalina.out"]
+	  start_position => "beginning"
+	  codec => multiline {
+	              pattern => "^%{LOGLEVEL:loglevel}"
+				  negate => true
+				  what => "previous"
+	           }
+}

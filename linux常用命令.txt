@@ -12,6 +12,14 @@ netstat -anop | grep pid
 "u"
 #恢复上一步被撤销的操作
 "ctrl+r"
+
+set nu 或者 set number //显示行号；
+
+set nonu 或者 set nonumber //关闭自动显示行号；
+
+set ic //查找时忽略大小写；
+
+set noic //查找时不忽略大小写。
 #vim相关-------end----------
 
 #scp
