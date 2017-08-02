@@ -1,6 +1,7 @@
 #进程pid与哪些外部服务或接口通信
 netstat -anop | grep pid
 
+
 #vim相关-------start----------
 查找相关内容
 "/"
@@ -31,6 +32,9 @@ netstat -an|grep 61616
 
 #根据端口查询进程
 netstat -apn | grep 5601
+
+或者
+lsof -i:6379
 #查询所有进程
 netstat -apn
 
