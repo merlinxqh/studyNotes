@@ -47,6 +47,14 @@ ALTER TABLE t_table ADD PRIMARY KEY (column_list)
 CREATE INDEX index_name ON table_name (column_list)
 CREATE UNIQUE INDEX index_name ON table_name (column_list)
 
+#mysqldump 备份数据
+#进入mysql/bin目录
+./mysqldump -u user -h 127.0.0.1 -P 3306 -p password dbname > /home/db.sql;
+
+#导入sql文件
+mysql -u root -p
+use targetDb;
+source /home/db.sql;
 
 #linux安装中文字体
 将字体文件 ****.ttf 放至 /user/share/fonts/win 目录下
@@ -100,3 +108,6 @@ FROM
 	INFORMATION_SCHEMA.KEY_COLUMN_USAGE
 WHERE
 	REFERENCED_TABLE_NAME = 'table_name';
+	
+#查看jvm内存
+jvisualvm 命令
