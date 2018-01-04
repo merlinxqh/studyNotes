@@ -37,7 +37,14 @@ netstat -apn | grep 5601
 lsof -i:6379
 #²éÑ¯ËùÓĞ½ø³Ì
 netstat -apn
-
+#mysql Ìí¼ÓÖ»¶ÁÕËºÅ
+GRANT SELECT ON *.* TO 'domyshop'@'%' IDENTIFIED BY 'hiveview';
+#Èç¹ûÌáÊ¾ÒÔÏÂĞÅÏ¢
+Your password does not satisfy the current policy requirements
+#²éÑ¯ÃÜÂë²ßÂÔ
+select @@validate_password_length;
+##ÉèÖÃÃÜÂë²ßÂÔ
+set global validate_password_policy=0;
 #mysql index
 show index from t_table;
 drop index xxxxxx on t_table;
@@ -49,12 +56,26 @@ CREATE UNIQUE INDEX index_name ON table_name (column_list)
 
 #mysqldump ±¸·İÊı¾İ
 #½øÈëmysql/binÄ¿Â¼
-./mysqldump -u user -h 127.0.0.1 -P 3306 -p password dbname > /home/db.sql;
+#µ¼³öÒ»¸ö¿â ½á¹¹¼Ó Êı¾İ
+./mysqldump -uuser -h 127.0.0.1 -P 3306 -ppassword dbname > /home/db.sql;
+#µ¼³ö²¿·Ö±í½á¹¹¼ÓÊı¾İ
 
 #µ¼ÈësqlÎÄ¼ş
 mysql -u root -p
 use targetDb;
 source /home/db.sql;
+
+#²éÑ¯mysqlÍâ¼ü¹ØÁª¹ØÏµsql
+SELECT
+	TABLE_NAME,
+	COLUMN_NAME,
+	CONSTRAINT_NAME,
+	REFERENCED_TABLE_NAME,
+	REFERENCED_COLUMN_NAME
+FROM
+	INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE
+	REFERENCED_TABLE_NAME = 'table_name';
 
 #linux°²×°ÖĞÎÄ×ÖÌå
 ½«×ÖÌåÎÄ¼ş ****.ttf ·ÅÖÁ /user/share/fonts/win Ä¿Â¼ÏÂ
@@ -64,12 +85,12 @@ source /home/db.sql;
 # fc-cache
 # fc-list :lang=zh  //ÏÔÊ¾ÏµÍ³ÒÑ°²×°ÖĞÎÄ×ÖÌå
 
-#rpm°²×° jdk
-rpm -ivh jdk-7u17-linux-x64.rpm
 
-#rpmĞ¶ÔØ jdk
-rpm -qa|grep jdk  //²éÕÒ¶ÔÓ¦jdk°æ±¾
-rpm -e  --nodeps  jdk-1.6.0_10-fcs  //Ğ¶ÔØÉÏÒ»²½²éÕÒµ½µÄjdk
+#########jvm²ÎÊı²éÑ¯###########
+jps   ²éÑ¯µ±Ç°java½ø³Ì
+jinfo -flags 23454 #²é¿´jvmÅäÖÃ
+jstat -gcutil -h5 14103 4s 100
+jmap -heap pic  #²é¿´¶ÑÕ»¿ìÕÕ
 
 
 ############### openjdk Ö»ĞèÒªÔÚ linux°²×°ºÃ×ÖÌå , ¾ÍÄÜÍ¨¹ıFontÀà µ÷ÓÃ, sun jdk Ö»ÄÜ µ½ ¶ÔÓ¦jdkÄ¿Â¼/jre/lib/fontsÏÂ °²×° ×ÖÌå
@@ -95,19 +116,26 @@ HKEY_LOCAL_MACHINE\Software\Microsoft\ Command Prosessor\CompletionCharµÄ¼üÖµ¸ÄÎ
 =======
 #²é¿´¶Ë¿ÚÕ¼ÓÃÇé¿öwindows
 netstat  -aon|findstr "80"
+#Ë¢ĞÂDNS
+ipconfig /flushdns
 
-
-#²éÑ¯mysqlÍâ¼ü¹ØÁª¹ØÏµsql
-SELECT
-	TABLE_NAME,
-	COLUMN_NAME,
-	CONSTRAINT_NAME,
-	REFERENCED_TABLE_NAME,
-	REFERENCED_COLUMN_NAME
-FROM
-	INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-WHERE
-	REFERENCED_TABLE_NAME = 'table_name';
 	
 #²é¿´jvmÄÚ´æ
 jvisualvm ÃüÁî
+
+#rpm°²×° jdk
+rpm -ivh jdk-7u17-linux-x64.rpm
+
+#rpmĞ¶ÔØ jdk
+rpm -qa|grep jdk  //²éÕÒ¶ÔÓ¦jdk°æ±¾
+rpm -e  --nodeps  jdk-1.6.0_10-fcs  //Ğ¶ÔØÉÏÒ»²½²éÕÒµ½µÄjdk
+
+
+ * jdkÌá¹©µÄÒ»Ì××¨Òµ¹¤¾ß ²éÑ¯ËÀËøÏÖÏó
+ *  # jps
+ *   12948 Jps
+	 7144
+	 10156 Launcher
+	 7596 DeadLockDemo
+   # jstack.exe 7596
+
