@@ -76,6 +76,41 @@ FROM
 	INFORMATION_SCHEMA.KEY_COLUMN_USAGE
 WHERE
 	REFERENCED_TABLE_NAME = 'table_name';
+	
+#####################测试 数据库 隔离级别
+===========client A
+-- set session TRANSACTION ISOLATION level READ UNCOMMITTED;  -- 读未提交数据
+
+-- set session TRANSACTION ISOLATION level READ COMMITTED;  -- 读已提交数据
+
+set session TRANSACTION ISOLATION level REPEATABLE READ; -- 可重复读
+
+START TRANSACTION;
+
+update demo_entity set name = 'qqq' where id = 1;
+
+select * from demo_entity;
+
+ROLLBACK;
+
+COMMIT;
+
+===========client B
+-- set session TRANSACTION ISOLATION level READ UNCOMMITTED;  -- 读未提交数据
+
+-- set session TRANSACTION ISOLATION level READ COMMITTED;  -- 读已提交数据
+
+set session TRANSACTION ISOLATION level REPEATABLE READ;
+
+start TRANSACTION;
+
+select * from demo_entity where id = 1;
+
+commit;
+
+
+
+##################数据库隔离级别
 
 #linux安装中文字体
 将字体文件 ****.ttf 放至 /user/share/fonts/win 目录下
@@ -89,8 +124,13 @@ WHERE
 #########jvm参数查询###########
 jps   查询当前java进程
 jinfo -flags 23454 #查看jvm配置
-jstat -gcutil -h5 14103 4s 100
+jstat -gcutil -h5 14103 4s 100 
 jmap -heap pic  #查看堆栈快照
+
+###解决中文 编译问题
+javac -encoding UTF-8 Test.java
+####查看字节码文件
+javap Test.class 
 
 
 ############### openjdk 只需要在 linux安装好字体 , 就能通过Font类 调用, sun jdk 只能 到 对应jdk目录/jre/lib/fonts下 安装 字体
