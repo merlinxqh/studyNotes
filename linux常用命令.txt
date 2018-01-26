@@ -178,4 +178,6 @@ rpm -e  --nodeps  jdk-1.6.0_10-fcs  //卸载上一步查找到的jdk
 	 10156 Launcher
 	 7596 DeadLockDemo
    # jstack.exe 7596
+###显示堆中对象统计信息
+   jmap -F -histo 8086  
 
