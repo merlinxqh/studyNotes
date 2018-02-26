@@ -27,6 +27,11 @@ set noic //查找时不忽略大小写。
 scp xxxx.war root:172.18.50.139:/home/abc
 
 
+
+##git项目代码 导出 
+git archive --format zip --output "./output.zip" master -0
+
+
 #查此端口看看是否成功启动
 netstat -an|grep 61616
 

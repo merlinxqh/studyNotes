@@ -1,0 +1,21 @@
+
+#执行命令  jstat -gc pid
+
+S0大小     S1大小     S0已使用  S1已使用     eden大小    eden已使用   old大小       old已使用   方法区大小   方法区使用大小     压缩类空间大小   压缩类空间使用大小   young GC次数   young GC耗时  Full GC次数   Full GC耗时   总GC耗时
+S0C        S1C        S0U       S1U          EC          EU           OC            OU          MC           MU                 CCSC             CCSU                 YGC            YGCT          FGC           FGCT          GCT   
+161792.0   156672.0   795.0     0.0          730112.0    695048.8     7340032.0     178451.6    79488.0      76357.2            8576.0           7898.0               16             0.531         1             0.061         0.593
+
+#执行命令 jstat -gccause -h5 pid 4s 100  (四秒显示一次, 总共执行100次 如果 使用 -gcutil 不展示 GC原因 即 "LGCC","GCC")
+  这里展示的是百分比
+  S0     S1    E       O     M      CCS       YGC   YGCT      FGC  FGCT     GCT    LGCC                 GCC                 
+  0.00   0.53  72.23   2.46  95.74  92.09     15    1.702     1    0.066    1.768  Allocation Failure   No GC               
+  0.00   0.53  72.27   2.46  95.74  92.09     15    1.702     1    0.066    1.768  Allocation Failure   No GC               
+  0.00   0.53  72.51   2.46  95.74  92.09     15    1.702     1    0.066    1.768  Allocation Failure   No GC               
+  0.00   0.53  73.12   2.46  95.74  92.09     15    1.702     1    0.066    1.768  Allocation Failure   No GC               
+  0.00   0.53  73.90   2.46  95.74  92.09     15    1.702     1    0.066    1.768  Allocation Failure   No GC  
+
+ #显示Jvm配置
+jinfo -flags pid
+
+#显示jvm当前各区域使用情况
+jmap -heap pid
