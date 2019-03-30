@@ -1,6 +1,11 @@
 #进程pid与哪些外部服务或接口通信
 netstat -anop | grep pid
 
+### 防火墙
+iptables -A INPUT -p tcp --dport 8080 -j ACCEPT 
+/etc/rc.d/init.d/iptables save
+/etc/init.d/iptables restart
+
 
 #vim相关-------start----------
 查找相关内容
